@@ -1,8 +1,5 @@
 
 .onLoad <- function(libname, pkgname) {
-    print("Downloading data files if they haven't been downloaded yet")
-    print(libname)
-    print(pkgname)
     base_url <- "http://content.cruk.cam.ac.uk/fmlab/holding2019"
     needsdl_data <- c("counts.datlinger2017_stim.rda", "counts.datlinger2017_unstim.rda", "counts.dixit2016_K562_highmoi.rda", "counts.dixit2016_K562_lowmoi.rda", "counts.jackson2019_CSTARVE.rda", "counts.jackson2019_DIAUXY.rda", "counts.jackson2019_MMD.rda", "counts.jackson2019_MMETOH.rda", "counts.jackson2019_NLIMGLN.rda", "counts.jackson2019_NLIMNH4.rda", "counts.jackson2019_NLIMPRO.rda", "counts.jackson2019_NLIMUREA.rda", "counts.jackson2019_RAPA.rda", "counts.jackson2019_YPD.rda", "counts.jackson2019_YPETOH.rda", "counts.jaitin2016.rda")
     needsdl_dr_crispseq <- c("counts.jaitin2016.mtx.gz")
