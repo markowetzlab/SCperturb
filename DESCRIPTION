@@ -1,0 +1,31 @@
+Package: SCperturb
+Type: Package
+Title: Data package for various single cell perturbation experiments
+Version: 0.0.0.9000
+Date: 2019-05-19
+Authors@R: c(person("Helen", "Cook", email = "helen.cook@cruk.cam.ac.uk", role = c("aut", "cre"), comment = c(ORCID="0000-0002-2659-3727"))
+            )
+Author: Helen Cook <helen.cook@cruk.cam.ac.uk>
+Maintainer: Helen Cook <helen.cook@cruk.cam.ac.uk>
+Description: Data package for various single cell perturbation experiments
+Depends: R (>= 3.5.0)
+BiocViews:
+Imports:
+    DESeq2,
+    Matrix,
+    Seurat (>= 3.0.0),
+    SingleCellExperiment,
+    SummarizedExperiment,
+    ggplot2,
+    ggridges,
+    ggthemes,
+    mnem,
+    pcalg,
+    pheatmap,
+    scater,
+    scran
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: false
+Suggests: testthat
+RoxygenNote: 6.1.0
