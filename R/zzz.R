@@ -16,9 +16,8 @@
                         rep("jackson2019", length(needsdl_dr_jackson)),
                         rep("perturb-seq", length(needsdl_dr_perturbseq)))
 
+    liblocation <- file.path(libname, pkgname)
     for (file in needsdl_data) {
-        libpaths <- file.path(.libPaths(), libname)
-        liblocation <- libpaths[[which(file.exists(libpaths))[[1]]]]
         path <- file.path(liblocation, "data")
         R.utils::mkdirs(path)
         localfile <- file.path(path, file)
@@ -28,8 +27,6 @@
     }
     for (idx in 1:length(needsdl_dr)) {
         file <- needsdl_dr[[idx]]
-        libpaths <- file.path(.libPaths(), libname)
-        liblocation <- libpaths[[which(file.exists(libpaths))[[1]]]]
         path <- file.path(liblocation, "data-raw", needsdl_subdir[[idx]])
         R.utils::mkdirs(path)
         localfile <- file.path(path, file)
