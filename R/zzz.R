@@ -18,7 +18,7 @@
         path <- file.path(liblocation, "data")
         R.utils::mkdirs(path)
         localfile <- file.path(path, file)
-        if (file.size(localfile) == 0) {
+        if (file.size(localfile) <= 121) {
             utils::download.file(file.path(base_url, "data", file), localfile)
         }
     }
