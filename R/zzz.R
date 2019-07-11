@@ -17,18 +17,24 @@
                         rep("perturb-seq", length(needsdl_dr_perturbseq)))
 
     for (file in needsdl_data) {
-        localfile <- file.path(.libPaths(), libname, "data", file)
-        if (! any(file.exists(localfile))) {
-            lf <- localfile[[which(file.exists(localfile))[[1]]]]
-            utils::download.file(file.path(base_url, "data", file), lf)
+        libpaths <- file.path(.libPaths(), libname)
+        liblocation <- libpaths[[which(file.exists(libpaths))[[1]]]]
+        path <- file.path(liblocation, "data")
+        R.utils::mkdirs(path)
+        localfile <- file.path(path, file)
+        if (! file.exists(localfile)) {
+            utils::download.file(file.path(base_url, "data", file), localfile)
         }
     }
     for (idx in 1:length(needsdl_dr)) {
         file <- needsdl_dr[[idx]]
-        localfile <- file.path(.libPaths(), libname, "data-raw", needsdl_subdir[[idx]], file)
-        if (! any(file.exists(localfile))) {
-            lf <- localfile[[which(file.exists(localfile))[[1]]]]
-            utils::download.file(file.path(base_url, "data-raw", needsdl_subdir[[idx]], file), lf)
+        libpaths <- file.path(.libPaths(), libname)
+        liblocation <- libpaths[[which(file.exists(libpaths))[[1]]]]
+        path <- file.path(liblocation, "data-raw", needsdl_subdir[[idx]])
+        R.utils::mkdirs(path)
+        localfile <- file.path(path, file)
+        if (! file.exists(localfile)) {
+            utils::download.file(file.path(base_url, "data-raw", needsdl_subdir[[idx]], file), localfile)
         }
 
     }
