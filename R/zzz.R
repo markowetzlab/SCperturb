@@ -22,14 +22,16 @@
             utils::download.file(file.path(base_url, "data", file), localfile)
         }
     }
-    for (idx in 1:length(needsdl_dr)) {
-        file <- needsdl_dr[[idx]]
-        path <- file.path(liblocation, "data-raw", needsdl_subdir[[idx]])
-        R.utils::mkdirs(path)
-        localfile <- file.path(path, file)
-        if (! file.exists(localfile)) {
-            utils::download.file(file.path(base_url, "data-raw", needsdl_subdir[[idx]], file), localfile)
+    downloadraw <- FALSE
+    if (downloadraw) {
+        for (idx in 1:length(needsdl_dr)) {
+            file <- needsdl_dr[[idx]]
+            path <- file.path(liblocation, "data-raw", needsdl_subdir[[idx]])
+            R.utils::mkdirs(path)
+            localfile <- file.path(path, file)
+            if (! file.exists(localfile)) {
+                utils::download.file(file.path(base_url, "data-raw", needsdl_subdir[[idx]], file), localfile)
+            }
         }
-
     }
 }
