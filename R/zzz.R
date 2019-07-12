@@ -16,7 +16,7 @@
     liblocation <- file.path(libname, pkgname)
     for (file in needsdl_data) {
         path <- file.path(liblocation, "data")
-        R.utils::mkdirs(path)
+        dir.create(path)
         localfile <- file.path(path, file)
         if (file.size(localfile) <= 200) {
             utils::download.file(file.path(base_url, "data", file), localfile)
@@ -27,7 +27,7 @@
         for (idx in 1:length(needsdl_dr)) {
             file <- needsdl_dr[[idx]]
             path <- file.path(liblocation, "data-raw", needsdl_subdir[[idx]])
-            R.utils::mkdirs(path)
+            dir.create(path)
             localfile <- file.path(path, file)
             if (! file.exists(localfile)) {
                 utils::download.file(file.path(base_url, "data-raw", needsdl_subdir[[idx]], file), localfile)

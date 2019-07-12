@@ -26,6 +26,6 @@ Imports:
     scran
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: false
+LazyData: true
 Suggests: testthat
 RoxygenNote: 6.1.0

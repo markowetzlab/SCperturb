@@ -4,20 +4,10 @@ Data and analysis package for single cell perturbation data
 
 # Install and run
 
-Install git-lfs to handle the large files.
-Download git-lfs from https://git-lfs.github.com/
-or install with brew:
+Install the SCperturb package from github using devtools.  When the package is installed, it will download 285Mb of additional data from https://content.cruk.cam.ac.uk/fmlab/holding2019
 
 ```
-$ brew install git-lfs
-```
-
-Clone this repository into a local directory, eg ~/projects
-
-Install the SCperturb package locally using devtools:
-
-```
-> devtools::install("~/projects/SCperturb")
+> devtools::install("markowetzlab/SCperturb")
 > library(SCperturb)
 ```
 
@@ -49,3 +39,9 @@ Data is included for the following papers:
 * Jaitin2016 (Crisp-seq) 22 perturbations of immune related genes in mouse (GSE90486)
 
 * Jackson2019 11 perturbations of growth-related genes in 11 different growth conditions in S. cerevisiae (GSE125162) Note that there is only one rowmetadata table for this dataset that applies to all counts matrices.  
+
+
+
+# Regenerate R data objects
+
+If you want to reproduce the R data objects that are distributed with this package from scratch, then you can find these scripts in /data-raw in the package source.  Large source files can be downloaded from https://content.cruk.cam.ac.uk/fmlab/holding2019/data-raw/.
