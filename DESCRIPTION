@@ -1,4 +1,4 @@
-Package: SCperturbnolfs
+Package: SCperturb
 Type: Package
 Title: Data package for various single cell perturbation experiments
 Version: 0.0.0.9000
