@@ -16,7 +16,9 @@
     liblocation <- file.path(libname, pkgname)
     for (file in needsdl_data) {
         path <- file.path(liblocation, "data")
-        dir.create(path)
+        if (! file.exists(path)) {
+			dir.create(path)
+		}
         localfile <- file.path(path, file)
         if (file.size(localfile) <= 200) {
             utils::download.file(file.path(base_url, "data", file), localfile)
