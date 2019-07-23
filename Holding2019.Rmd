@@ -1,0 +1,34 @@
+---
+title: "Holding2019"
+author: "Markowetzlab"
+output: html_document
+---
+
+Install and load the package.
+
+
+```{r}
+devtools::install("markowetzlab/SCperturb")
+library(SCperturb)
+```
+
+List available data.  3 data objects are included for each project: counts.project, rowmetadata.project and colmetadata.project.
+
+```{r}
+SCperturb::listprojects()
+data(rowmetadata.datlinger2017_stim)
+```
+
+Run mnem on perturb-seq and generate Figure 7 from Holding2019 "Network reconstruction from single cell transcriptomic profiles of CRISPR gene perturbations".  This takes about an hour to run. 
+
+```{r}
+set.seed(42)
+diffexp <- mnem_dixit2016_K562_lowmoi()
+```
+
+Generate expression data figure 
+
+```{r}
+
+```
+

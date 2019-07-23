@@ -50,6 +50,7 @@ mnem_dixit2016_K562_lowmoi <- function() {
     mnem_res <- mnem::mnem(binmat, k=k, starts=10)
     p <- plot(mnem_res)
     print(p)
+	return(filtered)
 }
 
 #' List projects we have data for
