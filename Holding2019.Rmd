@@ -23,13 +23,12 @@ Generate Figure 9 from Holding2019 "Network reconstruction from single cell tran
 
 ```{r}
 set.seed(42)
-diffexp <- mnem_dixit2016_K562_lowmoi()
+mnem_dixit2016_K562_lowmoi()
 ```
 
 Generate Figure 6 from Holding2019 that shows the knockdown efficiency.  
 
 ```{r}
-p <- knockdown_efficiency()
-print(p)
+knockdown_efficiency()
 ```
 

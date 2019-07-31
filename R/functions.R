@@ -260,7 +260,9 @@ knockdown_efficiency <- function() {
     }
     fraction <- 0.2
     custompalette <- rev(c(colorRampPalette(c("#ece7f2", "#2b8cbe"))(100*fraction), rep("#2b8cbe", 100*(1-fraction))))
-    return(pheatmap::pheatmap(log(pvalues, 10), cluster_cols=FALSE, cluster_rows=FALSE, color = custompalette))
+    p <- pheatmap::pheatmap(log(pvalues, 10), cluster_cols=FALSE, cluster_rows=FALSE, color = custompalette)
+    print(p)
+    return(p)
 }
 
 #' Perform differential expression with deseq2
