@@ -279,7 +279,7 @@ diffexp_deseq <- function(countsdata, rowmetadata, colmetadata) {
 
     coldata <- data.frame(row.names=rownames(colmetadata), colmetadata[,c("perturbation", "gene")])
     
-    keepcols <- sample(1:nrow(coldata), 100)
+    keepcols <- sample(1:nrow(coldata), 2000) #10% data
     coldata <- coldata[keepcols,]
 
     colnames(coldata) <- c("perturbation", "gene")
@@ -289,7 +289,7 @@ diffexp_deseq <- function(countsdata, rowmetadata, colmetadata) {
     coldata$perturbation <- factor(coldata$perturbation)
 
     perturbation <- coldata$perturbation
-    countsdata <- floor(countsdata*1000)
+    countsdata <- floor(countsdata*1000000) #assumption
     countsdata <- countsdata[,keepcols]
 
     dds <- DESeq2::DESeqDataSetFromMatrix(countData=countsdata, 
@@ -317,6 +317,7 @@ diffexp_deseq <- function(countsdata, rowmetadata, colmetadata) {
         }
     } 
     names(res.list) <- selected.genes
+    return(res.list)
 
     shrink.list <- list()
     for(i in 1:length(selected.genes)){  
@@ -338,5 +339,4 @@ diffexp_deseq <- function(countsdata, rowmetadata, colmetadata) {
         print(padj)
     }
 
-    return(shrink.list)
 }
