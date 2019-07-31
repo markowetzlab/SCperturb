@@ -8,7 +8,7 @@ Install and load the package.
 
 
 ```{r}
-devtools::install("markowetzlab/SCperturb")
+devtools::install_github("markowetzlab/SCperturb")
 library(SCperturb)
 ```
 
@@ -19,16 +19,17 @@ SCperturb::listprojects()
 data(rowmetadata.datlinger2017_stim)
 ```
 
-Run mnem on perturb-seq and generate Figure 7 from Holding2019 "Network reconstruction from single cell transcriptomic profiles of CRISPR gene perturbations".  This takes about an hour to run. 
+Generate Figure 9 from Holding2019 "Network reconstruction from single cell transcriptomic profiles of CRISPR gene perturbations".  This takes about an hour to run, as it calculates differential expression and then runs mnem.  
 
 ```{r}
 set.seed(42)
 diffexp <- mnem_dixit2016_K562_lowmoi()
 ```
 
-Generate expression data figure 
+Generate Figure 6 from Holding2019 that shows the knockdown efficiency.  
 
 ```{r}
-
+p <- knockdown_efficiency()
+print(p)
 ```
 

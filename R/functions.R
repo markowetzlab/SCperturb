@@ -50,7 +50,7 @@ mnem_dixit2016_K562_lowmoi <- function() {
     mnem_res <- mnem::mnem(binmat, k=k, starts=10)
     p <- plot(mnem_res)
     print(p)
-	return(filtered)
+	return(diffexp)
 }
 
 #' List projects we have data for
@@ -213,5 +213,128 @@ diffexp_seurat <- function(countsdata, rowmetadata, colmetadata) {
     return(de)
 }
 
+#' Generate heatmap of knockdown efficiencies
+#'
+#' @param countsdata Sparse matrix containing expression data
+#' @param rowmetadata Dataframe describing the rows of countsdata (reporter genes)
+#' @param colmetadata Dataframe describing the columns of countsdata (perturbed genes)
+#' @return pheatmap object
+#' @export
+knockdown_efficiency <- function() {
+    data(colmetadata.dixit2016_K562_lowmoi)
+    data(rowmetadata.dixit2016_K562_lowmoi)
+    data(counts.dixit2016_K562_lowmoi)
+    colmetadata <- colmetadata.dixit2016_K562_lowmoi
+    rowmetadata <- rowmetadata.dixit2016_K562_lowmoi
+    countsdata <- counts.dixit2016_K562_lowmoi
 
+    mat <- as.matrix(countsdata)
+    controls <- c("INTERGENIC1216445", "INTERGENIC1144056", "INTERGENIC216151")
+    controlcells <- which(colmetadata$perturbation %in% controls)
+    guides <- sort(unique(colmetadata$perturbation))
+    sgenes <- sort(unique(colmetadata[!colmetadata$perturbation %in% controls,]$gene))
 
+    pvalues <- matrix (nrow=length(sgenes), ncol=length(guides))
+    rownames(pvalues) <- sgenes
+    colnames(pvalues) <- guides
+    
+    percell <- matrix(nrow=length(sgenes), ncol=ncol(countsdata))
+    rownames(percell) <- sgenes
+    colnames(percell) <- rownames(colmetadata)
+
+    for (egene in sgenes) {
+        for (guide in guides) {
+            #cells in the controls form the distribution
+            if (egene %in% rownames(mat)) {
+                controldist <- mat[egene, controlcells]
+                guidecells <- which(colmetadata$perturbation %in% guide)
+                guidedist <- mat[egene, guidecells]
+                pval <- t.test(controldist, guidedist)$p.value
+                pvalues[egene, guide] <- pval
+                print(paste(egene, guide, pval, sep=" "))
+            } else {
+                pvalues[egene, guide] <- 1
+                print(paste(egene, "not found in mat", sep=" "))
+            }
+        }
+    }
+    fraction <- 0.2
+    custompalette <- rev(c(colorRampPalette(c("#ece7f2", "#2b8cbe"))(100*fraction), rep("#2b8cbe", 100*(1-fraction))))
+    return(pheatmap::pheatmap(log(pvalues, 10), cluster_cols=FALSE, cluster_rows=FALSE, color = custompalette))
+}
+
+#' Perform differential expression with deseq2
+#'
+#' @param countsdata Sparse matrix containing expression data
+#' @param rowmetadata Dataframe describing the rows of countsdata (reporter genes)
+#' @param colmetadata Dataframe describing the columns of countsdata (perturbed genes)
+#' @return list of differentially expressed genes
+#' @export
+diffexp_deseq <- function(countsdata, rowmetadata, colmetadata) {
+    controls <- c("INTERGENIC1216445", "INTERGENIC1144056", "INTERGENIC216151")
+    selected.genes <- unique(colmetadata[!colmetadata$perturbation %in% controls,]$perturbation)
+    selected.genes <- factor(selected.genes)
+
+    coldata <- data.frame(row.names=rownames(colmetadata), colmetadata[,c("perturbation", "gene")])
+    
+    keepcols <- sample(1:nrow(coldata), 100)
+    coldata <- coldata[keepcols,]
+
+    colnames(coldata) <- c("perturbation", "gene")
+    coldata$perturbation <- as.character(coldata$perturbation)
+    coldata[coldata$perturbation %in% controls,]$perturbation <- "CONTROL"
+    coldata$gene <- NULL
+    coldata$perturbation <- factor(coldata$perturbation)
+
+    perturbation <- coldata$perturbation
+    countsdata <- floor(countsdata*1000)
+    countsdata <- countsdata[,keepcols]
+
+    dds <- DESeq2::DESeqDataSetFromMatrix(countData=countsdata, 
+                                  colData=coldata, 
+                                  design=~perturbation
+                                  )
+    
+    # just pulling out the normalized counts (+divided by sizeFactor)
+    dds <- DESeq2::estimateSizeFactors(dds)
+    DESeq.norm.counts <- DESeq2::counts(dds, normalized=TRUE)
+    
+    # DGE analysis
+    dds <- DESeq2::DESeq(dds)
+
+    # to make pairwise comparisons
+    # has to be done by looping 
+    # over the contrasts (pairwise)
+    res.list <- list()
+    for(i in 1:length(selected.genes)){
+        if (i %in% DESeq2::resultsNames(dds)) {
+            res.list[[i]] <- DESeq2::results(dds, 
+                alpha = 0.05, # alpha refers to FDR cutoff
+                contrast = c("perturbation",paste0(selected.genes[i]),"CONTROL")
+            ) 
+        }
+    } 
+    names(res.list) <- selected.genes
+
+    shrink.list <- list()
+    for(i in 1:length(selected.genes)){  
+        shrink.list[[i]] <- DESeq2::lfcShrink(dds, 
+            contrast = c("perturbation",paste0(selected.genes[i]),"CONTROL"),
+            res = res.list[[i]] # this is important, because otherwise the settings above will be neglected - e.g. the p.adjust <0.05 setting
+        )
+    }
+    names(shrink.list) <- selected.genes
+
+    guides <- selected.genes
+    genes <- unlist(lapply(gsub("sg", "", selected.genes), function(x) {strsplit(x, "_")[[1]][[1]]}))
+
+    for (guide in selected.genes) {
+        gene <- strsplit(gsub("sg", "", guide), "_")[[1]][[1]]
+        lfc <- shrink.list[[guide]][gene,]$log2FoldChange
+        padj <- shrink.list[[guide]][gene,]$padj
+        print(guide)
+        print(padj)
+    }
+
+    return(shrink.list)
+}
