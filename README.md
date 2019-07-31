@@ -4,6 +4,8 @@ Data and analysis package for single cell perturbation data
 
 # Install and run
 
+An R markdown file, Holding2019.Rmd, is also available that covers the following steps. 
+
 Install the SCperturb package from github using devtools.  When the package is installed, it will download 285Mb of additional data from https://content.cruk.cam.ac.uk/fmlab/holding2019
 
 ```
@@ -24,7 +26,11 @@ Run mnem on perturb-seq and generate Figure 7 from Holding2019 "Network reconstr
 > set.seed(42)
 > SCperturb::mnem_dixit2016_K562_lowmoi()
 ```
+Generate Figure 6 from Holding2019 that shows the knockdown efficiency.
 
+```
+> knockdown_efficiency()
+```
 
 # Data
 
