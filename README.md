@@ -1,12 +1,15 @@
 
 # SCperturb
-Data and analysis package for single cell perturbation data
+Data and analysis package for single cell perturbation data to complement Holding2019 "Network reconstruction from single cell transcriptomic profiles of CRISPR gene perturbations".  This package includes data in a standardized format from 4 single cell perturbation experiments, and example code to construct a network from Datlinger2017 using mnem (Pirkl2018).  
+
 
 # Install and run
 
 An R markdown file, Holding2019.Rmd, is also available that covers the following steps. 
 
 Install the SCperturb package from github using devtools.  When the package is installed, it will download 285Mb of additional data from https://content.cruk.cam.ac.uk/fmlab/holding2019
+
+Note: this package depends on the pcalg package, which requires that a fortran compiler be installed, and installation will give confusing error messages if this requirement isn't met.  
 
 ```
 > devtools::install("markowetzlab/SCperturb")
@@ -20,7 +23,7 @@ List available data.  3 data objects are included for each project: counts.proje
 > data(rowmetadata.datlinger2017_stim)
 ```
 
-Run mnem on perturb-seq and generate Figure 7 from Holding2019 "Network reconstruction from single cell transcriptomic profiles of CRISPR gene perturbations".  This takes about an hour to run. 
+Run mnem on perturb-seq data and generate Figure 7 from Holding2019.  This takes about an hour to run. 
 
 ```
 > set.seed(42)
