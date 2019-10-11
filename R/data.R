@@ -2,6 +2,8 @@
 # crop-seq
 ################################################################################
 
+# comment
+
 #' @name counts.datlinger2017_stim
 #' @title Counts matrix from crop-seq datlinger2017 stimulated experiments
 #' @format A mtx matrix with rows and columns corresponding to rowdata and coldata
