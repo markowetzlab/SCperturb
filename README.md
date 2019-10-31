@@ -12,7 +12,8 @@ Install the SCperturb package from github using devtools.  When the package is i
 Note: this package depends on the pcalg package, which requires that a fortran compiler be installed, and installation will give confusing error messages if this requirement isn't met.  
 
 ```
-> devtools::install("markowetzlab/SCperturb")
+> install.packages(devtools)
+> devtools::install_github("markowetzlab/SCperturb")
 > library(SCperturb)
 ```
 
