@@ -2,8 +2,6 @@
 # crop-seq
 ################################################################################
 
-# comment
-
 #' @name counts.datlinger2017_stim
 #' @title Counts matrix from crop-seq datlinger2017 stimulated experiments
 #' @format A mtx matrix with rows and columns corresponding to rowdata and coldata
@@ -233,7 +231,7 @@
 #' @name counts.jackson2019_CSTARVE
 #' @title Counts matrix from jackson2019 CSTARVE - 
 #' @format A mtx matrix with rows and columns corresponding to rowdata and coldata
-"counts.jackson2019_NLIM-UREA"
+"counts.jackson2019_CSTARVE"
 
 #' @name colmetadata.jackson2019_CSTARVE - Carbon Starvation
 #' @title metadata about the columns (experiments) from jackson2019 CSTARVE
